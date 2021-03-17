@@ -6,53 +6,65 @@ on:
     - dev
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  checkEnv:
+    name: Check Env variables
+    runs-on: ubuntu-16.04
     steps:
-    - uses: actions/checkout@v1
-    - name: Install oc client v3.11.0
-      env:
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      run: |
-        cd $HOME
-        curl -LO https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
-        tar -xf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
-        cd openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit
-        chmod +x oc
-        echo "::set-env name=PATH_TO_OC::$PATH:$(pwd)"
-    - name: Login to openshift
-      env:
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      run: |
-        cd $HOME
-        export PATH=$PATH_TO_OC
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
-    - name: Build image
-      env:
-        APP_NAME: range-myra-web-ghactiontest
-        IMAGE_STREAM_NAME: $APP_NAME
-        GIT_BRANCH_NAME: ${GITHUB_REF##*/}
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      run: | 
-        cd $HOME
-        export PATH=$PATH_TO_OC
-        cd $GITHUB_WORKSPACE
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc version
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc project range-myra-tools
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc cancel-build bc/range-myra-web-dev-build
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc start-build range-myra-web-dev-build -F
-    - name: Build caddy image & tag image
-      env:
-        APP_NAME: range-myra-web-ghactiontest
-        IMAGE_STREAM_NAME: $APP_NAME
-        GIT_BRANCH_NAME: ${GITHUB_REF##*/}
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      run: | 
-        cd $HOME
-        export PATH=$PATH_TO_OC
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc project range-myra-tools
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc cancel-build bc/range-myra-web-caddy-dev-build
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc start-build range-myra-web-caddy-dev-build --wait=true 
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc tag range-myra-web-caddy:latest range-myra-web-caddy:test
+      - name: Print Env Vars
+        run: |
+          echo OC CLI Version: $(oc version)
+          echo Git Base Ref: ${{ github.base_ref }}
+          echo Git Change ID: ${{ github.event.number }}
+          echo Git Pull Request Ref: ${{ github.event.pull_request.head.sha }}
+          echo Git Event Name: ${{ github.event_name }}
+          echo Git Event Action: ${{ github.event.action }}
+          echo Git Labels: "$LABELS"
+          echo PR in Draft: ${{ github.event.pull_request.draft }}
+          echo Branch Name: ${GITHUB_REF##*/}
+
+  # Build the Database image
+  buildDatabase:
+    name: Build Database Image
+    runs-on: ubuntu-16.04
+    env:
+      BUILD_ID: ${{ github.event.number }}
+    steps:
+      # Checkout the branch
+      - name: Checkout Target Branch
+        uses: actions/checkout@v2
+
+      # Install Node - for `node` and `npm` commands
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.16
+
+      # Log in to OpenShift.
+      # Note: The secrets needed to log in are NOT available if the PR comes from a FORK.
+      # PR's must originate from a branch off the original repo or else all openshift `oc` commands will fail.
+      - name: Log in to OpenShift
+        run: oc login --token=${{ secrets.TOOLS_SA_TOKEN }} --server=https://api.silver.devops.gov.bc.ca:6443
+
+      - name: Build image
+        env:
+          APP_NAME: range-myra-web-ghactiontest
+          IMAGE_STREAM_NAME: $APP_NAME
+          GIT_BRANCH_NAME: ${GITHUB_REF##*/}
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        run: | 
+          oc project 3187b2-tools
+          oc cancel-build bc/range-myra-web-dev-build
+          oc start-build range-myra-web-dev-build -F
+
+      - name: Build caddy image & tag image
+        env:
+          APP_NAME: range-myra-web-ghactiontest
+          IMAGE_STREAM_NAME: $APP_NAME
+          GIT_BRANCH_NAME: ${GITHUB_REF##*/}
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        run: | 
+          oc project 3187b2-tools
+          oc cancel-build bc/range-myra-web-caddy-dev-build
+          oc start-build range-myra-web-caddy-dev-build --wait=true 
+          oc tag range-myra-web-caddy:latest range-myra-web-caddy:test           
+       

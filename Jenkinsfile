@@ -29,7 +29,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
   containers: [
     containerTemplate(
       name: 'jnlp',
-      image: 'docker-registry.default.svc:5000/range-myra-tools/jenkins-slave-nodejs:10',
+      image: 'docker-registry.default.svc:5000/3187b2-tools/jenkins-slave-nodejs:10',
       resourceRequestCpu: '1500m',
       resourceLimitCpu: '2000m',
       resourceRequestMemory: '1Gi',
