@@ -203,7 +203,7 @@
       "displayName": "Build Project",
       "description": "The openshift project where builds and target images are stored.",
       "required": true,
-      "value": "range-myra-tools"
+      "value": "3187b2-tools"
     },
     {
       "name": "NAME",
