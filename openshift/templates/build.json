@@ -75,7 +75,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "namespace": "${SOURCE_IMAGE_NAMESPACE}",
+                            "namespace": "3187b2-tools",
                             "name": "${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG}"
                         },
                         "env": [{
@@ -149,7 +149,7 @@
                     "dockerStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "namespace": "openshift",
+                            "namespace": "3187b2-tools",
                             "name": "bcgov-s2i-caddy:latest"
                         }
                     }
