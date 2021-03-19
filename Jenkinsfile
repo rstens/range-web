@@ -166,7 +166,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
           def action = [: ]
           action.type = "button"
           action.text = "Promote Image? :rocket:"
-          action.url = "https://jenkins-devhub-tools.pathfinder.gov.bc.ca/job/devhub-tools/job/devhub-tools-api-${GIT_BRANCH_NAME}-pipeline/${BUILD_ID}/input"
+          action.url = "https://jenkins-devhub-tools.apps.silver.devops.gov.bc.ca/job/devhub-tools/job/devhub-tools-api-${GIT_BRANCH_NAME}-pipeline/${BUILD_ID}/input"
           attachment.actions = [action]
           attachment.text = message
 
@@ -217,7 +217,7 @@ podTemplate(label: "${POD_LABEL}", name: "${POD_LABEL}", serviceAccount: 'jenkin
             def action = [: ]
             action.type = "button"
             action.text = "Promote Image? :rocket:"
-            action.url = "https://jenkins-devhub-tools.pathfinder.gov.bc.ca/job/devhub-tools/job/devhub-tools-api-${GIT_BRANCH_NAME}-pipeline/${BUILD_ID}/input"
+            action.url = "https://jenkins-devhub-tools.apps.silver.devops.gov.bc.ca/job/devhub-tools/job/devhub-tools-api-${GIT_BRANCH_NAME}-pipeline/${BUILD_ID}/input"
             attachment.actions = [action]
             attachment.text = message
 

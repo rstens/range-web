@@ -75,7 +75,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "namespace": "3187b2-tools",
+                            "namespace": "openshift",
                             "name": "${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG}"
                         },
                         "env": [{
