@@ -161,6 +161,7 @@ Create React App allows us to dynamically import parts of our app using the `imp
 
 * [Github Action Openshift image build + tag](https://github.com/bcgov/range-web/blob/dev/.github/workflows/deploy-test.yml)
   Make sure your SA can only build and tag!
+  
 
 ## License
 
