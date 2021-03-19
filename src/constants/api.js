@@ -22,7 +22,7 @@ import { isBundled, RETURN_PAGE_TYPE } from './variables'
 
 const DEV_API_BASE_URL =
   process.env.REACT_APP_API_URL ||
-  'https://web-range-myra-dev.pathfinder.gov.bc.ca/api'
+  'https://web-range-myra-dev.apps.silver.devops.gov.bc.ca/api'
 const DEV = {
   // eslint-disable-line no-unused-vars
   SSO_BASE_URL: 'https://sso-dev.pathfinder.gov.bc.ca',

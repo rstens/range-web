@@ -16,7 +16,7 @@ For the Alpha Release, the web application documented here allows Range Branch S
 - [MyRangeBC Web application Github Repository](https://github.com/bcgov/range-web)
 - [MyRangeBC API Github Repository](https://github.com/bcgov/range-api)
 - Our current Sprint Backlog is visible on GitHub Issues, see each repo for what is going on.
-- [See the database Schema on Schema-Spy](http://schema-spy-range-myra-dev.pathfinder.gov.bc.ca/)
+- [See the database Schema on Schema-Spy](http://schema-spy-range-myra-dev.apps.silver.devops.gov.bc.ca/)
 
 ## Folder Structure
 
@@ -54,7 +54,7 @@ For the project to build, **these files must exist with exact filenames**:
 ```bash
 REACT_APP_SSO_REALM_NAME= # Realm name for SSo
 REACT_APP_SSO_CLIENT_ID= # Client ID for SSO
-REACT_APP_API_URL= # API URL. Hosted dev API is at https://web-range-myra-dev.pathfinder.gov.bc.ca/api.
+REACT_APP_API_URL= # API URL. Hosted dev API is at https://web-range-myra-dev.apps.silver.devops.gov.bc.ca/api.
 ```
 
 There are example environment variables in `.env.example` that you can copy into `.env`.
@@ -161,7 +161,7 @@ Create React App allows us to dynamically import parts of our app using the `imp
 
 * [Github Action Openshift image build + tag](https://github.com/bcgov/range-web/blob/dev/.github/workflows/deploy-test.yml)
   Make sure your SA can only build and tag!
-  
+
 
 ## License
 

@@ -28,7 +28,7 @@ jobs:
       run: |
         cd $HOME
         export PATH=$PATH_TO_OC
-        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc login https://console.pathfinder.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
+        /home/runner/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc login https://console.apps.silver.devops.gov.bc.ca:8443 --token=${{ secrets.sa_token }}
     - name: Build image
       env:
         APP_NAME: range-myra-web-ghactiontest
